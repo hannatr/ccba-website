@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+.output
+.nitro
+.tanstack
+.vercel
+.wrangler
+.vinxi
+pnpm-lock.yaml
+package-lock.json
+coverage
+src/routeTree.gen.ts
+*.min.js
+*.min.css
