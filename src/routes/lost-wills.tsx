@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { SectionHeading } from '@/components/section-heading'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { fetchLostWillHolders } from '@/server/bar-data'
+import { heroForPath } from '@/content/images'
 import { absoluteUrl, site } from '@/content/site'
 
 export const Route = createFileRoute('/lost-wills')({
@@ -17,7 +18,7 @@ export const Route = createFileRoute('/lost-wills')({
       { property: 'og:title', content: `Lost Wills | ${site.name}` },
       {
         property: 'og:image',
-        content: absoluteUrl('/images/hero/courthouse.jpg'),
+        content: absoluteUrl(heroForPath('/lost-wills').src),
       },
     ],
     links: [{ rel: 'canonical', href: absoluteUrl('/lost-wills') }],

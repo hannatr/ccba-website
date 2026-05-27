@@ -10,10 +10,15 @@ const levelClass: Record<2 | 3, string> = {
 type SectionHeadingProps = {
   level?: 2 | 3
   className?: string
+  id?: string
   children: ReactNode
 }
 
-export function SectionHeading({ level = 2, className, children }: SectionHeadingProps) {
+export function SectionHeading({ level = 2, className, id, children }: SectionHeadingProps) {
   const Tag = level === 2 ? 'h2' : 'h3'
-  return <Tag className={cn(levelClass[level], className)}>{children}</Tag>
+  return (
+    <Tag id={id} className={cn(levelClass[level], className)}>
+      {children}
+    </Tag>
+  )
 }

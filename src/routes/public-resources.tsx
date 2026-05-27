@@ -5,6 +5,7 @@ import { SectionHeading } from '@/components/section-heading'
 import { RouterTextLink, TextLink } from '@/components/text-link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Separator } from '@/components/ui/separator'
+import { heroForPath, tubmanMemorial } from '@/content/images'
 import { publicResourceSections } from '@/content/resources'
 import { absoluteUrl, site } from '@/content/site'
 
@@ -19,7 +20,7 @@ export const Route = createFileRoute('/public-resources')({
       { property: 'og:title', content: `Public Resources | ${site.name}` },
       {
         property: 'og:image',
-        content: absoluteUrl('/images/hero/courthouse.jpg'),
+        content: absoluteUrl(heroForPath('/public-resources').src),
       },
     ],
     links: [{ rel: 'canonical', href: absoluteUrl('/public-resources') }],
@@ -63,8 +64,6 @@ function PublicResourcesPage() {
         </AlertDescription>
       </Alert>
 
-      <Separator />
-
       {publicResourceSections.map((section) => (
         <section key={section.heading} className="space-y-3">
           <SectionHeading level={3}>{section.heading}</SectionHeading>
@@ -80,6 +79,37 @@ function PublicResourcesPage() {
           </ul>
         </section>
       ))}
+
+      <Separator />
+
+      <section className="space-y-4" aria-labelledby="auburn-history-heading">
+        <SectionHeading id="auburn-history-heading">Auburn and Local History</SectionHeading>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,14rem)_1fr] lg:items-start">
+          <figure className="overflow-hidden rounded-lg border bg-card shadow-sm">
+            <img
+              src={tubmanMemorial.src}
+              alt={tubmanMemorial.alt}
+              className="w-full object-cover"
+              loading="lazy"
+              width={400}
+              height={560}
+            />
+          </figure>
+          <div className="text-muted-foreground max-w-prose space-y-3 text-sm leading-relaxed">
+            <p>
+              Auburn, the county seat of Cayuga County, has been home to courts, civic institutions, and nationally recognized figures
+              including Harriet Tubman, who lived in Auburn for much of her later life and is remembered on a memorial plaque in the city.
+            </p>
+            <p>
+              Visitors and residents can learn more at the{' '}
+              <TextLink href="https://www.nps.gov/hart/" target="_blank" rel="noopener noreferrer">
+                Harriet Tubman National Historical Park
+              </TextLink>{' '}
+              and other local historical sites.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

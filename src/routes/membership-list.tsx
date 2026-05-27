@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { MembershipDirectory } from '@/components/membership-directory'
 import { fetchMembers } from '@/server/bar-data'
+import { heroForPath } from '@/content/images'
 import { absoluteUrl, site } from '@/content/site'
 
 export const Route = createFileRoute('/membership-list')({
@@ -17,7 +18,7 @@ export const Route = createFileRoute('/membership-list')({
       { property: 'og:title', content: `Membership List | ${site.name}` },
       {
         property: 'og:image',
-        content: absoluteUrl('/images/hero/courthouse.jpg'),
+        content: absoluteUrl(heroForPath('/membership-list').src),
       },
     ],
     links: [{ rel: 'canonical', href: absoluteUrl('/membership-list') }],

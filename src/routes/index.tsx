@@ -5,6 +5,8 @@ import { SectionHeading } from '@/components/section-heading'
 import { TextLink } from '@/components/text-link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { HeritageGallery } from '@/components/heritage-gallery'
+import { heroForPath } from '@/content/images'
 import { articleIIBody, articleIITitle } from '@/content/mission'
 import { organizationJsonLd } from '@/lib/organization-jsonld'
 import { absoluteUrl, site } from '@/content/site'
@@ -29,7 +31,7 @@ export const Route = createFileRoute('/')({
       },
       {
         property: 'og:image',
-        content: absoluteUrl('/images/hero/courthouse.jpg'),
+        content: absoluteUrl(heroForPath('/').src),
       },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
@@ -130,6 +132,8 @@ function HomePage() {
           </Card>
         </aside>
       </div>
+
+      <HeritageGallery />
     </div>
   )
 }

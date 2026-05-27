@@ -1,8 +1,9 @@
 import { useRouterState } from '@tanstack/react-router'
 
+import { heroForPath } from '@/content/images'
 import { site } from '@/content/site'
 
-const heroByPath: Record<string, { title: string; subtitle?: string } | undefined> = {
+const heroCopyByPath: Record<string, { title: string; subtitle?: string } | undefined> = {
   '/': {
     title: site.name,
     subtitle: site.tagline,
@@ -17,7 +18,7 @@ const heroByPath: Record<string, { title: string; subtitle?: string } | undefine
   },
   '/join-renew': {
     title: 'Join / Renew Membership',
-    subtitle: 'Membership information, dues, and mailing instructions.',
+    subtitle: 'Contact us to join; dues and mailing instructions for renewals.',
   },
   '/public-resources': {
     title: 'Public Resources',
@@ -31,21 +32,22 @@ const heroByPath: Record<string, { title: string; subtitle?: string } | undefine
 
 export function PageHero() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const copy = heroByPath[pathname] ?? {
+  const copy = heroCopyByPath[pathname] ?? {
     title: site.shortName,
     subtitle: site.tagline,
   }
+  const image = heroForPath(pathname)
   return (
     <section
       className="relative isolate flex min-h-[280px] flex-col justify-end bg-slate-900 md:min-h-[380px] lg:min-h-[420px]"
       aria-label="Site banner"
     >
       <img
-        src="/images/hero/courthouse.jpg"
+        src={image.src}
         alt=""
-        className="absolute inset-0 size-full object-cover object-bottom"
+        className={`absolute inset-0 size-full object-cover ${image.objectPosition === 'top' ? 'object-top' : 'object-center'}`}
         width={1920}
-        height={600}
+        height={553}
         decoding="async"
         fetchPriority="high"
       />

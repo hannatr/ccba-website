@@ -73,7 +73,7 @@ Creates/updates `members`, `lost_will_holders`, `officers`, and `committee_membe
 
 ## Static assets
 
-- **Hero image:** commit artwork as `public/images/hero/courthouse.jpg` (or update references if you change the path). Source artwork is often kept outside the repo; copy it in when updating the hero.
+- **Hero images:** per-route banners are configured in `src/content/images.ts` (`heroByPath`). Add or replace files under `public/images/` and update that map. Open Graph previews use the same image as each page’s hero.
 
 ## Editing site content
 

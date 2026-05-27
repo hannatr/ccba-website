@@ -7,7 +7,15 @@ import type { MemberRow } from '@/db/schema'
 import { MembershipDirectoryDisclaimer } from '@/components/membership-directory-disclaimer'
 import { TextLink } from '@/components/text-link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -19,60 +27,152 @@ function websiteHref(raw: string | null): string | null {
   return `https://${u}`
 }
 
-const columns: Array<ColumnDef<MemberRow>> = [
-  {
-    accessorKey: 'displayName',
-    header: 'Name',
-    cell: ({ getValue }) => <span className="whitespace-normal font-medium">{getValue<string>()}</span>,
-  },
-  {
-    accessorKey: 'firm',
-    header: 'Firm',
-    cell: ({ getValue }) => <span className="whitespace-normal text-muted-foreground">{getValue<string | null>() || '—'}</span>,
-  },
-  {
-    accessorKey: 'phone',
-    header: 'Phone',
-    cell: ({ getValue }) => <span className="whitespace-normal text-muted-foreground">{getValue<string | null>() || '—'}</span>,
-  },
-  {
-    accessorKey: 'fax',
-    header: 'Fax',
-    cell: ({ getValue }) => <span className="whitespace-normal text-muted-foreground">{getValue<string | null>() || '—'}</span>,
-  },
-  {
-    accessorKey: 'website',
-    header: 'Website',
-    cell: ({ row }) => {
-      const raw = row.original.website?.trim()
-      if (!raw) return <span className="text-muted-foreground">—</span>
-      const href = websiteHref(row.original.website)
-      if (!href) return <span className="text-muted-foreground">—</span>
-      const label = raw.replace(/^https?:\/\//i, '')
-      return (
-        <TextLink href={href} target="_blank" rel="noopener noreferrer">
-          {label}
-        </TextLink>
-      )
+function emailHref(raw: string | null): string | null {
+  const e = raw?.trim()
+  if (!e) return null
+  return `mailto:${e}`
+}
+
+function fieldValue(value: string | null | undefined) {
+  const v = value?.trim()
+  return v || '—'
+}
+
+function MemberDetailField({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="grid gap-1 sm:grid-cols-[7rem_1fr] sm:gap-3">
+      <dt className="text-sm font-medium text-muted-foreground">{label}</dt>
+      <dd className="text-sm whitespace-normal">{children}</dd>
+    </div>
+  )
+}
+
+function MemberDetailsDialog({
+  member,
+  open,
+  onOpenChange,
+}: {
+  member: MemberRow | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  if (!member) return null
+
+  const email = member.email?.trim()
+  const emailLink = emailHref(member.email)
+  const website = member.website?.trim()
+  const websiteLink = websiteHref(member.website)
+  const websiteLabel = website?.replace(/^https?:\/\//i, '')
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-[min(calc(100vw-2rem),32rem)]">
+        <DialogHeader>
+          <DialogTitle>{member.displayName}</DialogTitle>
+          <DialogDescription>Full directory listing for this member.</DialogDescription>
+        </DialogHeader>
+        <dl className="space-y-4">
+          <MemberDetailField label="Firm">{fieldValue(member.firm)}</MemberDetailField>
+          <MemberDetailField label="Address">{fieldValue(member.address)}</MemberDetailField>
+          <MemberDetailField label="Phone">{fieldValue(member.phone)}</MemberDetailField>
+          <MemberDetailField label="Fax">{fieldValue(member.fax)}</MemberDetailField>
+          <MemberDetailField label="Email">
+            {email && emailLink ? (
+              <TextLink href={emailLink} className="whitespace-normal">
+                {email}
+              </TextLink>
+            ) : (
+              <span className="text-muted-foreground">—</span>
+            )}
+          </MemberDetailField>
+          <MemberDetailField label="Website">
+            {website && websiteLink ? (
+              <TextLink href={websiteLink} target="_blank" rel="noopener noreferrer">
+                {websiteLabel}
+              </TextLink>
+            ) : (
+              <span className="text-muted-foreground">—</span>
+            )}
+          </MemberDetailField>
+          <MemberDetailField label="Practice areas">
+            {member.practiceAreas.length > 0 ? member.practiceAreas.join(', ') : '—'}
+          </MemberDetailField>
+        </dl>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function createColumns(onViewDetails: (member: MemberRow) => void): Array<ColumnDef<MemberRow>> {
+  return [
+    {
+      accessorKey: 'displayName',
+      header: 'Name',
+      cell: ({ getValue }) => <span className="whitespace-normal font-medium">{getValue<string>()}</span>,
     },
-  },
-  {
-    accessorKey: 'practiceAreas',
-    header: 'Practice areas',
-    cell: ({ getValue }) => <span className="whitespace-normal">{getValue<Array<string>>().join(', ') || '—'}</span>,
-  },
-]
+    {
+      accessorKey: 'firm',
+      header: 'Firm',
+      cell: ({ getValue }) => <span className="whitespace-normal text-muted-foreground">{getValue<string | null>() || '—'}</span>,
+    },
+    {
+      accessorKey: 'phone',
+      header: 'Phone',
+      cell: ({ getValue }) => <span className="whitespace-nowrap text-muted-foreground">{getValue<string | null>() || '—'}</span>,
+    },
+    {
+      accessorKey: 'email',
+      header: 'Email',
+      cell: ({ row }) => {
+        const raw = row.original.email?.trim()
+        if (!raw) return <span className="text-muted-foreground">—</span>
+        const href = emailHref(row.original.email)
+        if (!href) return <span className="text-muted-foreground">—</span>
+        return (
+          <TextLink href={href} className="whitespace-normal">
+            {raw}
+          </TextLink>
+        )
+      },
+    },
+    {
+      accessorKey: 'practiceAreas',
+      header: 'Practice areas',
+      cell: ({ getValue }) => <span className="whitespace-normal">{getValue<Array<string>>().join(', ') || '—'}</span>,
+    },
+    {
+      id: 'actions',
+      header: () => <span className="sr-only">Details</span>,
+      cell: ({ row }) => (
+        <Button type="button" variant="outline" size="sm" onClick={() => onViewDetails(row.original)}>
+          Details
+        </Button>
+      ),
+    },
+  ]
+}
 
 function globalMemberFilter(row: MemberRow, filter: string) {
   const q = filter.trim().toLowerCase()
   if (!q) return true
   const name = row.displayName.toLowerCase()
   const firm = (row.firm ?? '').toLowerCase()
+  const address = (row.address ?? '').toLowerCase()
   const phone = (row.phone ?? '').toLowerCase()
   const fax = (row.fax ?? '').toLowerCase()
+  const email = (row.email ?? '').toLowerCase()
   const website = (row.website ?? '').toLowerCase()
   const areas = row.practiceAreas.join(' ').toLowerCase()
-  return name.includes(q) || firm.includes(q) || phone.includes(q) || fax.includes(q) || website.includes(q) || areas.includes(q)
+  return (
+    name.includes(q) ||
+    firm.includes(q) ||
+    address.includes(q) ||
+    phone.includes(q) ||
+    fax.includes(q) ||
+    email.includes(q) ||
+    website.includes(q) ||
+    areas.includes(q)
+  )
 }
 
 function practiceAreaFilter(row: MemberRow, filter: string) {
@@ -81,13 +181,29 @@ function practiceAreaFilter(row: MemberRow, filter: string) {
   return row.practiceAreas.some((a) => a.toLowerCase().includes(v))
 }
 
+function columnClassName(columnId: string, part: 'head' | 'cell') {
+  switch (columnId) {
+    case 'phone':
+      return 'w-[1%] min-w-[10.5rem] whitespace-nowrap'
+    case 'practiceAreas':
+      return 'w-36 max-w-36 whitespace-normal'
+    case 'actions':
+      return part === 'cell' ? 'w-0 whitespace-nowrap text-right' : 'w-0 text-right'
+    default:
+      return part === 'cell' ? 'whitespace-normal' : undefined
+  }
+}
+
 export function MembershipDirectory({ members }: { members: Array<MemberRow> }) {
   const [nameOrFirm, setNameOrFirm] = React.useState('')
   const [practiceArea, setPracticeArea] = React.useState('')
+  const [selectedMember, setSelectedMember] = React.useState<MemberRow | null>(null)
 
   const data = React.useMemo(() => {
     return members.filter((m) => globalMemberFilter(m, nameOrFirm) && practiceAreaFilter(m, practiceArea))
   }, [members, nameOrFirm, practiceArea])
+
+  const columns = React.useMemo(() => createColumns(setSelectedMember), [])
 
   const table = useReactTable({
     data,
@@ -104,6 +220,13 @@ export function MembershipDirectory({ members }: { members: Array<MemberRow> }) 
 
   return (
     <div className="space-y-6">
+      <MemberDetailsDialog
+        member={selectedMember}
+        open={selectedMember !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedMember(null)
+        }}
+      />
       <MembershipDirectoryDisclaimer />
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-1.5">
@@ -160,7 +283,7 @@ export function MembershipDirectory({ members }: { members: Array<MemberRow> }) 
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className={columnClassName(header.column.id, 'head')}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   ))}
@@ -171,7 +294,7 @@ export function MembershipDirectory({ members }: { members: Array<MemberRow> }) 
               {table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="whitespace-normal">
+                    <TableCell key={cell.id} className={columnClassName(cell.column.id, 'cell')}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
