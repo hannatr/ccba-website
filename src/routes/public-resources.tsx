@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Separator } from '@/components/ui/separator'
 import { heroForPath, tubmanMemorial } from '@/content/images'
 import { publicResourceSections } from '@/content/resources'
-import { absoluteUrl, site } from '@/content/site'
+import { absoluteUrl, nysbaLawyerReferralUrl, site } from '@/content/site'
 
 export const Route = createFileRoute('/public-resources')({
   head: () => ({
@@ -47,7 +47,7 @@ function PublicResourcesPage() {
             Use the{' '}
             <TextLink
               className="inline-flex items-center gap-1"
-              href="https://nysba.intouchondemand.com/findlawyer/search"
+              href={nysbaLawyerReferralUrl}
               target="_blank"
               rel="noopener noreferrer"
             >

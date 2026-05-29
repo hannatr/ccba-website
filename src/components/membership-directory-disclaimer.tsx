@@ -2,6 +2,7 @@ import { Info, Phone } from 'lucide-react'
 
 import { TextLink } from '@/components/text-link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { nysbaLawyerReferralUrl } from '@/content/site'
 
 export function MembershipDirectoryDisclaimer() {
   return (
@@ -23,7 +24,7 @@ export function MembershipDirectoryDisclaimer() {
         <AlertDescription>
           <p>
             <strong>Please do not contact the bar association requesting a lawyer referral.</strong> For referrals, use the{' '}
-            <TextLink href="https://nysba.intouchondemand.com/findlawyer/search" target="_blank" rel="noopener noreferrer">
+            <TextLink href={nysbaLawyerReferralUrl} target="_blank" rel="noopener noreferrer">
               New York State Bar Association Lawyer Referral Service
             </TextLink>{' '}
             or call <span className="whitespace-nowrap">(800) 342-3661</span>.

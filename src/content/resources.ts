@@ -1,3 +1,5 @@
+import { nysbaLawyerReferralUrl } from '@/content/site'
+
 export type ResourceLink = { label: string; href: string }
 
 export const publicResourceSections: Array<{ heading: string; links: Array<ResourceLink> }> = [
@@ -26,7 +28,7 @@ export const publicResourceSections: Array<{ heading: string; links: Array<Resou
       },
       {
         label: 'New York State Bar Association — Lawyer Referral Service',
-        href: 'https://www.nysba.org/lawyerreferral/',
+        href: nysbaLawyerReferralUrl,
       },
     ],
   },

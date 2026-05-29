@@ -1,11 +1,10 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import { Analytics } from '@vercel/analytics/react'
 
 import appCss from '../styles.css?url'
 import { AppShell } from '@/components/app-shell'
-import { site, siteLogoPath } from '@/content/site'
+import { DevtoolsPanel } from '@/components/devtools-panel'
+import { site, siteFaviconPath } from '@/content/site'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -28,8 +27,13 @@ export const Route = createRootRoute({
       { rel: 'stylesheet', href: appCss },
       {
         rel: 'icon',
-        href: siteLogoPath,
+        href: siteFaviconPath,
         type: 'image/png',
+        sizes: '192x192',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: siteFaviconPath,
       },
     ],
   }),
@@ -50,17 +54,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <AppShell>{children}</AppShell>
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        {import.meta.env.DEV ? <DevtoolsPanel /> : null}
         <Analytics />
         <Scripts />
       </body>

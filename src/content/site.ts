@@ -4,15 +4,21 @@ export const defaultSiteUrl = 'https://cayugacountybarassociation.org'
 /** Public URL path to the association logo (`public/images/ccba-logo.png`). */
 export const siteLogoPath = '/images/ccba-logo.png' as const
 
+/** Square mark for favicons and PWA icons (`public/logo192.png`). */
+export const siteFaviconPath = '/logo192.png' as const
+
 export const site = {
   name: 'Cayuga County Bar Association',
   shortName: 'CCBA',
-  tagline: 'Serving the Cayuga County, New York legal community',
+  tagline: 'Serving the Cayuga County, New York legal community since 1906',
   email: 'cayugacountybarassociation@gmail.com',
   poBoxLine: 'P.O. Box 931, Auburn, NY 13021',
   duesAmountUsd: 60,
   duesDueDescription: 'Annual membership dues are $60 and due each August 1.',
 } as const
+
+/** NYSBA Lawyer Referral Service — https://www.nysba.org/lawyerreferral/ */
+export const nysbaLawyerReferralUrl = 'https://www.nysba.org/lawyerreferral/' as const
 
 /** Production base URL — set `VITE_SITE_URL` in Vercel for canonical + OG links. */
 export function siteUrl(): string {

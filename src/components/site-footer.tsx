@@ -1,7 +1,7 @@
 import { ExternalLink, Mail, MapPin } from 'lucide-react'
 import { TextLink } from '@/components/text-link'
 import { Separator } from '@/components/ui/separator'
-import { site, siteLogoPath } from '@/content/site'
+import { site, siteLogoPath, nysbaLawyerReferralUrl } from '@/content/site'
 
 export function SiteFooter() {
   return (
@@ -30,7 +30,7 @@ export function SiteFooter() {
             <ExternalLink className="mt-0.5 size-4 shrink-0 text-primary/70" strokeWidth={1.65} aria-hidden />
             <span>
               Attorney referral resource:{' '}
-              <TextLink href="https://www.nysba.org/lawyerreferral/" target="_blank" rel="noopener noreferrer">
+              <TextLink href={nysbaLawyerReferralUrl} target="_blank" rel="noopener noreferrer">
                 New York State Bar Lawyer Referral Service
               </TextLink>
             </span>

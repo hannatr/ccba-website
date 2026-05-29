@@ -4,6 +4,7 @@ import { ListFilter, Search, Users } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import type { MemberRow } from '@/db/schema'
+import { MemberUpdateRequest } from '@/components/member-update-request'
 import { MembershipDirectoryDisclaimer } from '@/components/membership-directory-disclaimer'
 import { TextLink } from '@/components/text-link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -38,6 +39,15 @@ function fieldValue(value: string | null | undefined) {
   return v || '—'
 }
 
+function formatMemberName(displayName: string) {
+  const commaIndex = displayName.indexOf(',')
+  if (commaIndex === -1) return displayName.trim()
+  const last = displayName.slice(0, commaIndex).trim()
+  const first = displayName.slice(commaIndex + 1).trim()
+  if (!first || !last) return displayName.trim()
+  return `${first} ${last}`
+}
+
 function MemberDetailField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid gap-1 sm:grid-cols-[7rem_1fr] sm:gap-3">
@@ -68,7 +78,7 @@ function MemberDetailsDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[min(calc(100vw-2rem),32rem)]">
         <DialogHeader>
-          <DialogTitle>{member.displayName}</DialogTitle>
+          <DialogTitle>{formatMemberName(member.displayName)}</DialogTitle>
           <DialogDescription>Full directory listing for this member.</DialogDescription>
         </DialogHeader>
         <dl className="space-y-4">
@@ -108,7 +118,9 @@ function createColumns(onViewDetails: (member: MemberRow) => void): Array<Column
     {
       accessorKey: 'displayName',
       header: 'Name',
-      cell: ({ getValue }) => <span className="whitespace-normal font-medium">{getValue<string>()}</span>,
+      cell: ({ getValue }) => (
+        <span className="whitespace-normal font-medium">{formatMemberName(getValue<string>())}</span>
+      ),
     },
     {
       accessorKey: 'firm',
@@ -155,7 +167,8 @@ function createColumns(onViewDetails: (member: MemberRow) => void): Array<Column
 function globalMemberFilter(row: MemberRow, filter: string) {
   const q = filter.trim().toLowerCase()
   if (!q) return true
-  const name = row.displayName.toLowerCase()
+  const name = formatMemberName(row.displayName).toLowerCase()
+  const storedName = row.displayName.toLowerCase()
   const firm = (row.firm ?? '').toLowerCase()
   const address = (row.address ?? '').toLowerCase()
   const phone = (row.phone ?? '').toLowerCase()
@@ -165,6 +178,7 @@ function globalMemberFilter(row: MemberRow, filter: string) {
   const areas = row.practiceAreas.join(' ').toLowerCase()
   return (
     name.includes(q) ||
+    storedName.includes(q) ||
     firm.includes(q) ||
     address.includes(q) ||
     phone.includes(q) ||
@@ -228,6 +242,10 @@ export function MembershipDirectory({ members }: { members: Array<MemberRow> }) 
         }}
       />
       <MembershipDirectoryDisclaimer />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">Need to change your directory listing?</p>
+        <MemberUpdateRequest members={members} />
+      </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="member-search">Search name, firm, or contact</Label>
