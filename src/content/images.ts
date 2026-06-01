@@ -33,7 +33,7 @@ export function heroForPath(pathname: string): SiteImage {
   return heroByPath[pathname] ?? defaultHero
 }
 
-export const heritageGallery: HeritageImage[] = [
+export const heritageGallery: Array<HeritageImage> = [
   {
     src: '/images/courthouse.jpg',
     alt: 'Vintage postcard of the Cayuga County Courthouse with columned portico, Auburn, New York',

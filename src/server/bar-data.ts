@@ -1,9 +1,9 @@
 import { createServerFn } from '@tanstack/react-start'
-import { asc, desc } from 'drizzle-orm'
+import { asc, desc, gte, isNull, or, sql } from 'drizzle-orm'
 
-import type { CommitteeMemberRow, LostWillRow, MemberRow, OfficerRow } from '@/db/schema'
+import type { CommitteeMemberRow, EventRow, LostWillRow, MemberRow, OfficerRow } from '@/db/schema'
 import { getDb } from '@/db'
-import { committeeMembers, lostWillHolders, members, officers } from '@/db/schema'
+import { committeeMembers, events, lostWillHolders, members, officers } from '@/db/schema'
 
 export const fetchMembers = createServerFn({ method: 'GET' }).handler(async (): Promise<Array<MemberRow>> => {
   const db = getDb()
@@ -30,4 +30,14 @@ export const fetchCommitteeMembers = createServerFn({ method: 'GET' }).handler(a
     .select()
     .from(committeeMembers)
     .orderBy(asc(committeeMembers.committeeName), desc(committeeMembers.isChair), asc(committeeMembers.sortKey), asc(committeeMembers.name))
+})
+
+export const fetchUpcomingEvents = createServerFn({ method: 'GET' }).handler(async (): Promise<Array<EventRow>> => {
+  const db = getDb()
+  if (!db) return []
+  return db
+    .select()
+    .from(events)
+    .where(or(isNull(events.eventDate), gte(events.eventDate, sql`CURRENT_DATE`)))
+    .orderBy(asc(events.eventDate), asc(events.sortKey), asc(events.name))
 })

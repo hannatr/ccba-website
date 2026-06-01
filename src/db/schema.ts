@@ -1,4 +1,4 @@
-import { boolean, integer, pgTable, text, uuid } from 'drizzle-orm/pg-core'
+import { boolean, date, integer, pgTable, text, uuid } from 'drizzle-orm/pg-core'
 
 export const members = pgTable('members', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -34,7 +34,17 @@ export const committeeMembers = pgTable('committee_members', {
   sortKey: integer('sort_key').notNull().default(0),
 })
 
+export const events = pgTable('events', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  eventDate: date('event_date'),
+  displayDate: text('display_date'),
+  location: text('location'),
+  sortKey: integer('sort_key').notNull().default(0),
+})
+
 export type MemberRow = typeof members.$inferSelect
 export type LostWillRow = typeof lostWillHolders.$inferSelect
 export type OfficerRow = typeof officers.$inferSelect
 export type CommitteeMemberRow = typeof committeeMembers.$inferSelect
+export type EventRow = typeof events.$inferSelect

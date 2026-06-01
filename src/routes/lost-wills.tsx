@@ -11,8 +11,7 @@ export const Route = createFileRoute('/lost-wills')({
       { title: `Lost Wills | ${site.name}` },
       {
         name: 'description',
-        content:
-          'Information about attorneys who may be holding wills for safekeeping — Cayuga County Bar Association.',
+        content: 'Information about attorneys who may be holding wills for safekeeping — Cayuga County Bar Association.',
       },
       { property: 'og:title', content: `Lost Wills | ${site.name}` },
       {
@@ -36,8 +35,8 @@ function LostWillsPage() {
           available.
         </p>
         <p className="text-muted-foreground leading-relaxed">
-          If you have an immediate need, please email the bar association at{' '}
-          <TextLink href={`mailto:${site.email}`}>{site.email}</TextLink>.
+          If you have an immediate need, please email the bar association at <TextLink href={`mailto:${site.email}`}>{site.email}</TextLink>
+          .
         </p>
       </section>
     </div>

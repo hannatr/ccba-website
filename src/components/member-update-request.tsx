@@ -6,14 +6,7 @@ import { PencilLine } from 'lucide-react'
 import type { MemberRow } from '@/db/schema'
 import type { MemberUpdateFormValues } from '@/lib/member-update-schema'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -318,8 +311,7 @@ export function MemberUpdateRequest({ members }: { members: Array<MemberRow> }) 
               <DialogHeader>
                 <DialogTitle>Verify your listing</DialogTitle>
                 <DialogDescription>
-                  Enter the email address on file for your membership directory listing. If it matches, you can review and
-                  submit changes.
+                  Enter the email address on file for your membership directory listing. If it matches, you can review and submit changes.
                 </DialogDescription>
               </DialogHeader>
               <form className="space-y-4" onSubmit={handleVerifyEmail}>
@@ -366,8 +358,7 @@ export function MemberUpdateRequest({ members }: { members: Array<MemberRow> }) 
               <DialogHeader>
                 <DialogTitle>Update request submitted</DialogTitle>
                 <DialogDescription>
-                  Thank you. Your requested changes have been sent for review. The directory will be updated after they are
-                  approved.
+                  Thank you. Your requested changes have been sent for review. The directory will be updated after they are approved.
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>

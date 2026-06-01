@@ -45,12 +45,7 @@ function PublicResourcesPage() {
         <AlertDescription className="space-y-3">
           <p>
             Use the{' '}
-            <TextLink
-              className="inline-flex items-center gap-1"
-              href={nysbaLawyerReferralUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <TextLink className="inline-flex items-center gap-1" href={nysbaLawyerReferralUrl} target="_blank" rel="noopener noreferrer">
               New York State Bar Association Lawyer Referral Service
               <ExternalLink className="size-3.5 opacity-70" aria-hidden />
             </TextLink>{' '}

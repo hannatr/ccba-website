@@ -45,8 +45,8 @@ function JoinRenewPage() {
       <section className="space-y-3">
         <SectionHeading>Renew — Dues & Deadlines</SectionHeading>
         <p className="leading-relaxed">
-          Renewal membership is <strong>{`$${site.duesAmountUsd}`}</strong> per year, due on or before <strong>August 1</strong>. Please mail
-          your check to:
+          Renewal membership is <strong>{`$${site.duesAmountUsd}`}</strong> per year, due on or before <strong>August 1</strong>. Please
+          mail your check to:
         </p>
         <Card>
           <CardContent className="pt-6">

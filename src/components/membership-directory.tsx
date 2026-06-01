@@ -10,13 +10,7 @@ import { TextLink } from '@/components/text-link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -118,9 +112,7 @@ function createColumns(onViewDetails: (member: MemberRow) => void): Array<Column
     {
       accessorKey: 'displayName',
       header: 'Name',
-      cell: ({ getValue }) => (
-        <span className="whitespace-normal font-medium">{formatMemberName(getValue<string>())}</span>
-      ),
+      cell: ({ getValue }) => <span className="whitespace-normal font-medium">{formatMemberName(getValue<string>())}</span>,
     },
     {
       accessorKey: 'firm',

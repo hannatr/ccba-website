@@ -1,5 +1,6 @@
-import { useRouterState } from '@tanstack/react-router'
+import { Link, useRouterState } from '@tanstack/react-router'
 
+import { Button } from '@/components/ui/button'
 import { heroForPath } from '@/content/images'
 import { site } from '@/content/site'
 
@@ -55,6 +56,16 @@ export function PageHero() {
       <div className="relative mx-auto w-full max-w-6xl px-4 pb-10 pt-20 md:pb-12 md:pt-24">
         <h1 className="text-balance text-2xl font-semibold tracking-tight text-white drop-shadow md:text-3xl">{copy.title}</h1>
         {copy.subtitle ? <p className="mt-2 max-w-2xl text-pretty text-sm text-white/90 md:text-base">{copy.subtitle}</p> : null}
+        {pathname === '/' ? (
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button asChild className="h-12 px-6 text-base font-bold uppercase md:h-14 md:px-8 md:text-lg">
+              <Link to="/membership-list">Find a Lawyer</Link>
+            </Button>
+            <Button asChild className="h-12 px-6 text-base font-bold uppercase md:h-14 md:px-8 md:text-lg">
+              <Link to="/lost-wills">Find a Will</Link>
+            </Button>
+          </div>
+        ) : null}
       </div>
     </section>
   )

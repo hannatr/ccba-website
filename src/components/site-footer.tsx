@@ -1,7 +1,7 @@
 import { ExternalLink, Mail, MapPin } from 'lucide-react'
 import { TextLink } from '@/components/text-link'
 import { Separator } from '@/components/ui/separator'
-import { site, siteLogoPath, nysbaLawyerReferralUrl } from '@/content/site'
+import { nysbaLawyerReferralUrl, site, siteLogoPath } from '@/content/site'
 
 export function SiteFooter() {
   return (

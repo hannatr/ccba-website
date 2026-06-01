@@ -32,12 +32,7 @@ function emailsMatch(stored: string | null | undefined, lookup: string) {
   return (stored?.trim().toLowerCase() ?? '') === lookup.trim().toLowerCase()
 }
 
-async function postMemberUpdateToDiscord(
-  webhookUrl: string,
-  member: MemberRow,
-  lookupEmail: string,
-  updates: MemberUpdates,
-) {
+async function postMemberUpdateToDiscord(webhookUrl: string, member: MemberRow, lookupEmail: string, updates: MemberUpdates) {
   const current = formValuesToUpdates({
     displayName: member.displayName,
     firm: member.firm ?? '',
@@ -65,10 +60,7 @@ async function postMemberUpdateToDiscord(
     title: 'Member directory update request',
     description: `Update request for **${member.displayName}** (${lookupEmail}).`,
     color: 0x2563eb,
-    fields:
-      changedFields.length > 0
-        ? changedFields
-        : [{ name: 'Changes', value: 'No field changes were submitted.' }],
+    fields: changedFields.length > 0 ? changedFields : [{ name: 'Changes', value: 'No field changes were submitted.' }],
     timestamp: new Date().toISOString(),
   }
 
