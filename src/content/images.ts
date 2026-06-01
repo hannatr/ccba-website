@@ -55,3 +55,11 @@ export const tubmanMemorial: SiteImage = {
   src: '/images/tubman.jpg',
   alt: 'Memorial plaque for Harriet Tubman erected by the citizens of Auburn in 1914',
 }
+
+export const serenoPayne: SiteImage = {
+  src: '/images/sereno-payne.png',
+  alt: 'Black and white historical portrait of Sereno Elisha Payne, a founder of the Cayuga County Bar Association, wearing a formal suit and bow tie',
+}
+
+export const serenoPayneBio =
+  "Sereno Elisha Payne was one of the founders of the Cayuga County Bar Association. He practiced law in Auburn and served as one of New York's congressmen from 1883 to 1887 and then again from 1889 to his death in 1914. He was the first ever chairman of the House Ways and Means Committee. He, along with other Cayuga County lawyers, signed our Certificate of Incorporation in 1903."
