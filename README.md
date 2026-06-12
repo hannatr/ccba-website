@@ -46,7 +46,9 @@ Apply the schema to Neon (from the project root, with `DATABASE_URL` set):
 pnpm db:push
 ```
 
-Creates/updates `members`, `lost_will_holders`, `officers`, and `committee_members` (and any other tables defined in `src/db/schema.ts`).
+Creates/updates `members`, `lost_will_custodians`, `officers`, and `committee_members` (and any other tables defined in `src/db/schema.ts`).
+
+To load or replace the Lost Wills registry, run [`scripts/seed-lost-wills.sql`](scripts/seed-lost-wills.sql) against Neon (SQL Editor or `psql`) after `pnpm db:push`.
 
 ## Scripts
 
@@ -85,7 +87,7 @@ Static copy and structured data live under `src/content/`:
 | `membership-rules.ts` | Membership rules copy           |
 | `resources.ts`        | Public resource links           |
 
-Officers and committee rosters are stored in Neon (`officers` and `committee_members` tables), not in `src/content/`.
+Officers, committee rosters, and the lost-wills custodian list are stored in Neon (`officers`, `committee_members`, and `lost_will_custodians` tables), not in `src/content/`.
 
 Always verify legal and roster text against your authoritative documents (PDFs, resolutions, etc.).
 

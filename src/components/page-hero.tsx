@@ -27,7 +27,7 @@ const heroCopyByPath: Record<string, { title: string; subtitle?: string } | unde
   },
   '/lost-wills': {
     title: 'Lost Wills',
-    subtitle: 'Attorneys who may be holding wills for safekeeping.',
+    subtitle: 'Law offices holding wills for attorneys who retired, are deceased, or left practice.',
   },
 }
 

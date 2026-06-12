@@ -1,9 +1,9 @@
 import { createServerFn } from '@tanstack/react-start'
 import { asc, desc, gte, isNull, or, sql } from 'drizzle-orm'
 
-import type { CommitteeMemberRow, EventRow, LostWillRow, MemberRow, OfficerRow } from '@/db/schema'
+import type { CommitteeMemberRow, EventRow, LostWillCustodianRow, MemberRow, OfficerRow } from '@/db/schema'
 import { getDb } from '@/db'
-import { committeeMembers, events, lostWillHolders, members, officers } from '@/db/schema'
+import { committeeMembers, events, lostWillCustodians, members, officers } from '@/db/schema'
 
 export const fetchMembers = createServerFn({ method: 'GET' }).handler(async (): Promise<Array<MemberRow>> => {
   const db = getDb()
@@ -11,10 +11,10 @@ export const fetchMembers = createServerFn({ method: 'GET' }).handler(async (): 
   return db.select().from(members).orderBy(asc(members.sortKey), asc(members.displayName))
 })
 
-export const fetchLostWillHolders = createServerFn({ method: 'GET' }).handler(async (): Promise<Array<LostWillRow>> => {
+export const fetchLostWillCustodians = createServerFn({ method: 'GET' }).handler(async (): Promise<Array<LostWillCustodianRow>> => {
   const db = getDb()
   if (!db) return []
-  return db.select().from(lostWillHolders).orderBy(asc(lostWillHolders.attorneyName))
+  return db.select().from(lostWillCustodians).orderBy(asc(lostWillCustodians.sortKey), asc(lostWillCustodians.firmName))
 })
 
 export const fetchOfficers = createServerFn({ method: 'GET' }).handler(async (): Promise<Array<OfficerRow>> => {

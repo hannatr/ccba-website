@@ -13,10 +13,12 @@ export const members = pgTable('members', {
   sortKey: integer('sort_key').notNull().default(0),
 })
 
-export const lostWillHolders = pgTable('lost_will_holders', {
+export const lostWillCustodians = pgTable('lost_will_custodians', {
   id: uuid('id').defaultRandom().primaryKey(),
-  attorneyName: text('attorney_name').notNull(),
-  notes: text('notes'),
+  firmName: text('firm_name').notNull(),
+  phone: text('phone'),
+  holdingFor: text('holding_for').array().notNull(),
+  sortKey: integer('sort_key').notNull().default(0),
 })
 
 export const officers = pgTable('officers', {
@@ -44,7 +46,7 @@ export const events = pgTable('events', {
 })
 
 export type MemberRow = typeof members.$inferSelect
-export type LostWillRow = typeof lostWillHolders.$inferSelect
+export type LostWillCustodianRow = typeof lostWillCustodians.$inferSelect
 export type OfficerRow = typeof officers.$inferSelect
 export type CommitteeMemberRow = typeof committeeMembers.$inferSelect
 export type EventRow = typeof events.$inferSelect
